@@ -1,0 +1,339 @@
+2026-09-22 14:04:03,992 WARNING database DDL Query made to DB:
+create table `tabAutomation Action` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`step_key` varchar(140),
+`step_type` varchar(140) DEFAULT 'Action',
+`action_type` varchar(140),
+`target` varchar(140) DEFAULT 'trigger',
+`output_alias` varchar(140),
+`params` json,
+`step_condition` longtext,
+`related_condition` json,
+`parent_step` int(11) NOT NULL DEFAULT 0,
+`branch` varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140),
+index parent(parent))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-09-22 14:04:04,055 WARNING database DDL Query made to DB:
+create table `tabAssignment Rule` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`document_type` varchar(140),
+`due_date_based_on` varchar(140),
+`priority` int(11) NOT NULL DEFAULT 0,
+`disabled` tinyint(4) NOT NULL DEFAULT 0,
+`description` text DEFAULT 'Automatic Assignment',
+`assign_condition` longtext,
+`unassign_condition` longtext,
+`close_condition` longtext,
+`rule` varchar(140),
+`field` varchar(140),
+`last_user` varchar(140),
+`current_index` int(11) NOT NULL DEFAULT 0,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-09-22 14:04:04,081 WARNING database DDL Query made to DB:
+create table `tabAssignment Rule User` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`user` varchar(140),
+`weight` int(11) NOT NULL DEFAULT 1,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140),
+index parent(parent))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-09-22 14:04:04,142 WARNING database DDL Query made to DB:
+create table `tabReminder` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`user` varchar(140),
+`remind_at` datetime(6),
+`description` text,
+`reminder_doctype` varchar(140),
+`reminder_docname` varchar(140),
+`notified` tinyint(4) NOT NULL DEFAULT 0,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index `user`(`user`),
+index `remind_at`(`remind_at`),
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-09-22 14:04:04,186 WARNING database DDL Query made to DB:
+create table `tabAutomation Flow` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`title` varchar(140),
+`document_type` varchar(140),
+`enabled` tinyint(4) NOT NULL DEFAULT 0,
+`disabled_reason` text,
+`trigger_type` varchar(140),
+`trigger_field` varchar(140),
+`from_value` varchar(140),
+`to_value` varchar(140),
+`custom_event` varchar(140),
+`date_field` varchar(140),
+`date_offset` int(11) NOT NULL DEFAULT 0,
+`date_direction` varchar(140),
+`cron_expression` varchar(140),
+`next_run` datetime(6),
+`filters` longtext,
+`condition` longtext,
+`relationships` json,
+`revalidate_on_run` tinyint(4) NOT NULL DEFAULT 0,
+`run_as` varchar(140) DEFAULT 'Automation User',
+`automation_user` varchar(140) DEFAULT 'Administrator',
+`stop_on_error` tinyint(4) NOT NULL DEFAULT 1,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index `next_run`(`next_run`),
+index creation(creation),
+index modified(modified))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-09-22 14:04:04,230 WARNING database DDL Query made to DB:
+create table `tabAutomation Event Subscription` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`event_name` varchar(140),
+`correlation_key` varchar(140),
+`status` varchar(140) DEFAULT 'Waiting',
+`expires_at` datetime(6),
+`run` varchar(140),
+`step_key` varchar(140),
+`resume_queue` varchar(140),
+`event_payload` json,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index `event_name`(`event_name`),
+index `correlation_key`(`correlation_key`),
+index `status`(`status`),
+index `expires_at`(`expires_at`),
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-09-22 14:04:04,245 WARNING database DDL Query made to DB:
+ALTER TABLE `tabAutomation Event Subscription`
+				ADD INDEX IF NOT EXISTS `event_correlation_status`(event_name, correlation_key, status)
+2026-09-22 14:04:04,250 WARNING database DDL Query made to DB:
+ALTER TABLE `tabAutomation Event Subscription`
+				ADD INDEX IF NOT EXISTS `event_expiry_status`(status, expires_at)
+2026-09-22 14:04:04,268 WARNING database DDL Query made to DB:
+create table `tabMilestone Tracker` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`document_type` varchar(140) UNIQUE,
+`track_field` varchar(140),
+`disabled` tinyint(4) NOT NULL DEFAULT 0,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-09-22 14:04:04,291 WARNING database DDL Query made to DB:
+create table `tabAssignment Rule Day` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`day` varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140),
+index parent(parent))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-09-22 14:04:04,346 WARNING database DDL Query made to DB:
+create table `tabAuto Repeat` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`reference_doctype` varchar(140),
+`reference_document` varchar(140),
+`submit_on_creation` tinyint(4) NOT NULL DEFAULT 0,
+`start_date` date,
+`end_date` date,
+`disabled` tinyint(4) NOT NULL DEFAULT 0,
+`frequency` varchar(140),
+`repeat_on_day` int(11) NOT NULL DEFAULT 0,
+`repeat_on_last_day` tinyint(4) NOT NULL DEFAULT 0,
+`next_schedule_date` date,
+`generate_separate_documents_for_each_assignee` tinyint(4) NOT NULL DEFAULT 0,
+`notify_by_email` tinyint(4) NOT NULL DEFAULT 0,
+`recipients` text,
+`template` varchar(140),
+`subject` varchar(140),
+`message` text DEFAULT 'Please find attached {{ doc.doctype }} #{{ doc.name }}',
+`print_format` varchar(140),
+`status` varchar(140),
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index `next_schedule_date`(`next_schedule_date`),
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-09-22 14:04:04,395 WARNING database DDL Query made to DB:
+create table `tabAutomation Trigger Queue` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`automation` varchar(140),
+`ref_doctype` varchar(140),
+`ref_name` varchar(140),
+`status` varchar(140) DEFAULT 'Pending',
+`triggered_at` datetime(6),
+`run_after` datetime(6),
+`attempt` int(11) NOT NULL DEFAULT 0,
+`depth` int(11) NOT NULL DEFAULT 0,
+`triggered_by` varchar(140),
+`event_payload` json,
+`resume_run` varchar(140),
+`resume_from_idx` int(11) NOT NULL DEFAULT 0,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index `automation`(`automation`),
+index `ref_doctype`(`ref_doctype`),
+index `status`(`status`),
+index `run_after`(`run_after`),
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-09-22 14:04:04,410 WARNING database DDL Query made to DB:
+ALTER TABLE `tabAutomation Trigger Queue`
+		ADD COLUMN `dedup_key` VARCHAR(420)
+		AS (
+			CASE WHEN `status` IN ('Pending', 'Scheduled') AND `resume_run` IS NULL
+			THEN CONCAT_WS(':', `automation`, `ref_doctype`, `ref_name`) END
+		) VIRTUAL
+2026-09-22 14:04:04,414 WARNING database DDL Query made to DB:
+ALTER TABLE `tabAutomation Trigger Queue` ADD UNIQUE INDEX `unique_dedup_key` (`dedup_key`)
+2026-09-22 14:04:04,419 WARNING database DDL Query made to DB:
+ALTER TABLE `tabAutomation Trigger Queue`
+				ADD INDEX IF NOT EXISTS `drain_scan`(status, run_after, triggered_at)
+2026-09-22 14:04:04,425 WARNING database DDL Query made to DB:
+ALTER TABLE `tabAutomation Trigger Queue`
+				ADD INDEX IF NOT EXISTS `pending_lookup`(automation, ref_doctype, ref_name)
+2026-09-22 14:29:29,947 WARNING database Couldn't set session time zone 'NoneType' object has no attribute 'get'
+2026-09-22 14:34:45,684 WARNING database Couldn't set session time zone 'NoneType' object has no attribute 'get'
+2026-09-22 14:37:28,441 WARNING database Couldn't set session time zone 'NoneType' object has no attribute 'get'
+2026-09-22 14:42:46,225 WARNING database Couldn't set session time zone 'NoneType' object has no attribute 'get'
+2026-09-22 14:51:22,867 WARNING database DDL Query made to DB:
+create table `tabBook` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-09-22 14:54:03,701 WARNING database DDL Query made to DB:
+ALTER TABLE `tabBook` ADD COLUMN `article` varchar(140), ADD COLUMN `description` text
+2026-09-22 16:49:06,872 WARNING database Couldn't set session time zone 'NoneType' object has no attribute 'get'
+2026-09-22 16:51:17,457 WARNING database Couldn't set session time zone 'NoneType' object has no attribute 'get'
+2026-09-22 17:02:33,632 WARNING database Couldn't set session time zone 'NoneType' object has no attribute 'get'
+2026-09-22 17:05:23,096 WARNING database Couldn't set session time zone 'NoneType' object has no attribute 'get'
+2026-09-23 11:27:45,776 WARNING database Couldn't set session time zone 'NoneType' object has no attribute 'get'
+2026-09-23 11:49:40,715 WARNING database Couldn't set session time zone 'NoneType' object has no attribute 'get'
+2026-09-23 12:54:21,761 WARNING database Couldn't set session time zone 'NoneType' object has no attribute 'get'
+2026-09-23 13:18:01,476 WARNING database DDL Query made to DB:
+ALTER TABLE `tabBook` ADD UNIQUE INDEX IF NOT EXISTS article (`article`)
+2026-09-23 13:20:23,308 WARNING database DDL Query made to DB:
+ALTER TABLE `tabBook` ADD COLUMN `naming_series` varchar(140)
